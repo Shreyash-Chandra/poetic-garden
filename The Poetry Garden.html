@@ -1,0 +1,794 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style id="s0">:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>The Poetry Garden</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: one continuous scene. Night sky with the title floating in it, a drawn garden rooted in rust-brown soil,
+   a royal-blue pond in the middle, and each poem opening as a sheet over the garden. Night is the default; dawn is the light theme. */
+:root{
+  --font-display:'Cormorant Garamond',Georgia,serif;
+  --font-poem:'EB Garamond',Georgia,serif;
+  --font-ui:'Lora',Georgia,serif;
+
+  /* pigments: the friend's colors, fixed in both themes */
+  --cherry:#D2042D; --cherry-hi:#F2506B;
+  --pink:#F4A3BC;
+  --royal:#4169E1; --royal-hi:#9DB3FF;
+  --rust:#B7410E;
+  --ivory:#FFFBF2; --gold:#F3C45A;
+
+  /* night */
+  --sky-top:#050929; --sky-mid:#101d6b; --sky-bot:#2f49bd;
+  --orb:#F6ECD9; --orb-glow:rgba(190,205,255,.35); --star-op:.95;
+  --soil-top:#7B3718; --soil:#3A180B;
+  --pond:#0E1860; --ripple:rgba(150,175,255,.4);
+  --leaf:#3A8C75; --leaf-2:#5BB59A; --leaf-deep:#256B58;
+  --ink:#FDEFEA; --ink-soft:#C8CEF7; --btn-bg:rgba(255,255,255,.08); --btn-edge:rgba(255,255,255,.3);
+  --soil-ink:#FDEFEA; --soil-soft:#E2B9A3; --chip-bg:rgba(255,255,255,.07); --chip-edge:rgba(255,255,255,.22); --chip-hover:rgba(255,255,255,.15);
+  --card:#10184F; --card-ink:#F6EAE4; --card-soft:#B7C0F2; --card-edge:rgba(157,179,255,.35); --backdrop:rgba(3,5,22,.66);
+  --t-red:#FF7A92; --t-pink:#FFB6CB; --t-blue:#A9BDFF; --t-white:#F3DDB0; --t-rust:#F29A66; --t-gold:#F6D272;
+  --mogra-edge:#CFC2DD;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){
+    --sky-top:#B7C8F8; --sky-mid:#D6D3F3; --sky-bot:#F7D2D9;
+    --orb:#FFC7A6; --orb-glow:rgba(255,170,140,.55); --star-op:0;
+    --soil-top:#A85A2E; --soil:#6E3317;
+    --pond:#7893EA; --ripple:rgba(255,255,255,.55);
+    --leaf:#2E7A62; --leaf-2:#4C9C82; --leaf-deep:#215F4C;
+    --ink:#13226B; --ink-soft:#3C4797; --btn-bg:rgba(19,34,107,.07); --btn-edge:rgba(19,34,107,.35);
+    --card:#FFF6F3; --card-ink:#4A1D0C; --card-soft:#8A5944; --card-edge:rgba(110,44,16,.28); --backdrop:rgba(40,16,30,.45);
+    --t-red:#B3032A; --t-pink:#B8426A; --t-blue:#2848B5; --t-white:#8C5A3C; --t-rust:#A33A0A; --t-gold:#8A6500;
+    --mogra-edge:#B79C86;
+    color-scheme:light;
+  }
+}
+:root[data-theme="light"]{
+  --sky-top:#B7C8F8; --sky-mid:#D6D3F3; --sky-bot:#F7D2D9;
+  --orb:#FFC7A6; --orb-glow:rgba(255,170,140,.55); --star-op:0;
+  --soil-top:#A85A2E; --soil:#6E3317;
+  --pond:#7893EA; --ripple:rgba(255,255,255,.55);
+  --leaf:#2E7A62; --leaf-2:#4C9C82; --leaf-deep:#215F4C;
+  --ink:#13226B; --ink-soft:#3C4797; --btn-bg:rgba(19,34,107,.07); --btn-edge:rgba(19,34,107,.35);
+  --card:#FFF6F3; --card-ink:#4A1D0C; --card-soft:#8A5944; --card-edge:rgba(110,44,16,.28); --backdrop:rgba(40,16,30,.45);
+  --t-red:#B3032A; --t-pink:#B8426A; --t-blue:#2848B5; --t-white:#8C5A3C; --t-rust:#A33A0A; --t-gold:#8A6500;
+  --mogra-edge:#B79C86;
+  color-scheme:light;
+}
+
+body{background:var(--soil);color:var(--soil-ink);font-family:var(--font-ui);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--sky-top)}
+*{box-sizing:border-box}
+button{font:inherit;color:inherit}
+
+.wrap{width:100%;max-width:1100px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* sky */
+.sky{position:relative;overflow:hidden;color:var(--ink);background:linear-gradient(180deg,var(--sky-top) 0%,var(--sky-mid) 55%,var(--sky-bot) 100%)}
+.stars{position:absolute;inset:0;opacity:var(--star-op);pointer-events:none;transition:opacity .6s}
+.stars i{position:absolute;width:var(--s);height:var(--s);border-radius:50%;background:#fff;animation:twinkle 4.5s ease-in-out var(--d) infinite}
+.orb{position:absolute;top:40px;right:max(7%,28px);width:62px;height:62px;border-radius:50%;background:var(--orb);box-shadow:0 0 70px 22px var(--orb-glow);transition:background .6s,box-shadow .6s}
+
+.head{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;padding-block:34px 6px}
+.head-text{min-width:0;max-width:34rem}
+.eyebrow{margin:0 0 10px;font:600 12px/1 var(--font-ui);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
+h1{margin:0;font:500 clamp(3.1rem,11vw,5.4rem)/.92 var(--font-display);letter-spacing:-.01em;text-wrap:balance}
+h1 em{font-style:italic;color:var(--cherry-hi)}
+:root[data-theme="light"] h1 em{color:var(--cherry)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) h1 em{color:var(--cherry)}}
+.lede{margin:16px 0 0;font:italic 400 1.4rem/1.45 var(--font-poem);color:var(--ink);max-width:30rem}
+.friend{border-bottom:1px dashed currentColor;white-space:nowrap}
+.progress{margin:14px 0 0;font:500 13px/1 var(--font-ui);letter-spacing:.04em;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.mode{font:500 13px/1 var(--font-ui);padding:10px 16px;border-radius:999px;background:var(--btn-bg);border:1px solid var(--btn-edge);color:var(--ink);cursor:pointer}
+.mode:hover{background:var(--btn-edge)}
+.mode:focus-visible,.chip:focus-visible,.pager button:focus-visible,.x:focus-visible{outline:2px solid var(--fa,var(--soil-ink));outline-offset:2px}
+
+/* garden */
+.scene{position:relative;z-index:1}
+.soil-bg{position:absolute;left:0;right:0;bottom:0;height:120px;background:linear-gradient(180deg,var(--soil-top),var(--soil))}
+#garden{display:block;position:relative;width:100%;max-width:1100px;height:auto;margin-inline:auto}
+#petals{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
+
+.pond{fill:var(--pond)}
+.ripple{fill:none;stroke:var(--ripple);stroke-width:1.4}
+.blade{fill:none;stroke:var(--leaf);stroke-width:2;stroke-linecap:round}
+.blade.f{stroke:var(--leaf-deep);stroke-width:2.6}
+.stem{fill:none;stroke:var(--leaf);stroke-width:3.2;stroke-linecap:round}
+.leaf{fill:var(--leaf);stroke:var(--leaf-2);stroke-width:.8}
+.pad{fill:var(--leaf-2);stroke:var(--leaf);stroke-width:1.2}
+
+.red{--a:#D2042D;--b:#B80327;--c:#8E0B25;--d:#4D0513;--gl:#FF5C7A}
+.pink{--a:#F6AFC5;--b:#EE8FAE;--c:#DB6C91;--d:#8F2F52;--gl:#FFB6CB}
+.lpink{--a:#FFCFDC;--b:#F8A9C0;--c:#E8809F;--d:#9A3558;--gl:#FFC0D2}
+.blue{--a:#7F9BF4;--b:#4F72E6;--c:#2C4DBF;--d:#142270;--gl:#7F9CFF}
+.white{--a:#FFFFFF;--b:#FFF4E2;--c:#F2DFB4;--d:var(--mogra-edge);--gl:#FFF3D6}
+.pa{fill:var(--a)} .pb{fill:var(--b)} .pc{fill:var(--c)}
+.petal{stroke:var(--d);stroke-opacity:.45;stroke-width:1}
+.swirl{fill:none;stroke:var(--d);stroke-opacity:.6;stroke-width:1.4;stroke-linecap:round}
+.seed{fill:var(--gold)} .seed2{fill:#E8D38A}
+
+.flower{cursor:pointer;outline:none;-webkit-tap-highlight-color:transparent}
+.sway{transform-origin:var(--ox) var(--oy);animation:sway var(--dur) ease-in-out var(--delay) infinite alternate}
+.lotus .sway{animation-name:bob}
+.bloom-inner{transform-box:fill-box;transform-origin:center;transition:transform .35s cubic-bezier(.2,.8,.2,1),filter .35s}
+.flower:hover .bloom-inner,.flower:focus-visible .bloom-inner{transform:scale(1.12);filter:drop-shadow(0 0 8px var(--gl))}
+.glow{fill:var(--gl);filter:blur(9px);opacity:.3;animation:pulse 4.2s ease-in-out infinite;transition:opacity .6s}
+.flower.read .glow{animation:none;opacity:0}
+.hit{fill:rgba(0,0,0,0)}
+.ring{fill:none;stroke:var(--ink);stroke-width:2;stroke-dasharray:4 5;opacity:0}
+.flower:focus-visible .ring{opacity:1}
+
+@keyframes sway{from{transform:rotate(-1.3deg)}to{transform:rotate(1.3deg)}}
+@keyframes bob{from{transform:translateY(-1.5px) rotate(-.8deg)}to{transform:translateY(2px) rotate(.8deg)}}
+@keyframes pulse{0%,100%{opacity:.18}50%{opacity:.5}}
+@keyframes twinkle{0%,100%{opacity:.35}50%{opacity:1}}
+
+/* soil section */
+.soil{position:relative;background:var(--soil);padding-block:30px 44px}
+.soil h2{margin:0 0 18px;font:400 1.7rem/1.1 var(--font-display)}
+.chips{list-style:none;margin:0;padding:2px 0 8px;display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:10px}
+.chip{flex:none;white-space:nowrap;display:inline-flex;align-items:center;gap:10px;font:500 14px/1.2 var(--font-ui);padding:10px 15px;border-radius:999px;background:var(--chip-bg);color:var(--soil-ink);border:1px solid var(--chip-edge);cursor:pointer;text-align:left}
+.chip:hover{background:var(--chip-hover)}
+.chip .dot{flex:none;width:10px;height:10px;border-radius:50%;background:var(--dot);transition:opacity .4s}
+.chip.read .dot{opacity:.3}
+.chip small{font:400 12px var(--font-ui);color:var(--soil-soft)}
+.note{margin:26px 0 0;max-width:38rem;font:400 13px/1.6 var(--font-ui);color:var(--soil-soft)}
+
+/* poem sheet */
+.overlay{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:var(--backdrop);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.sheet{position:relative;width:min(560px,100%);max-height:min(88vh,780px);overflow:auto;background:var(--card);color:var(--card-ink);border:1px solid var(--card-edge);border-radius:20px;padding:30px clamp(22px,5vw,42px) 24px;box-shadow:0 30px 80px rgba(0,0,0,.45);animation:rise .4s cubic-bezier(.2,.8,.2,1)}
+.sheet-top{display:flex;align-items:center;gap:16px;padding-right:36px}
+.mini{flex:none;width:76px;height:76px}
+.kicker{margin:0 0 4px;font:600 11px/1.2 var(--font-ui);letter-spacing:.16em;text-transform:uppercase;color:var(--fa)}
+.sheet h2{margin:0;font:500 clamp(2.2rem,8vw,3rem)/1 var(--font-display);text-wrap:balance}
+.x{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;border:1px solid var(--card-edge);background:transparent;color:var(--card-ink);font-size:22px;line-height:1;cursor:pointer}
+.x:hover{background:var(--card-edge)}
+.poem{display:flex;flex-direction:column;margin:26px 0 0;font:italic 400 1.32rem/1.7 var(--font-poem);font-optical-sizing:auto}
+.ln{display:block;padding-left:1.1em;text-indent:-1.1em;animation:fadeUp .7s cubic-bezier(.2,.8,.2,1) backwards}
+.gap{display:block;height:1em}
+.sign{margin:24px 0 0;font:400 13px/1.4 var(--font-ui);color:var(--card-soft)}
+.pager{margin-top:20px;padding-top:16px;border-top:1px solid var(--card-edge);display:flex;align-items:center;justify-content:space-between;gap:10px;font:500 13px var(--font-ui);color:var(--card-soft);font-variant-numeric:tabular-nums}
+.pager button{padding:9px 14px;border-radius:999px;border:1px solid var(--card-edge);background:transparent;color:var(--card-ink);cursor:pointer}
+.pager button:hover{background:var(--card-edge)}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.head-btns{display:flex;gap:8px;flex-wrap:wrap}
+.rust{--a:#D9692F;--b:#B7410E;--c:#8A2F08;--d:#4A1804;--gl:#F08A4B}
+.gold{--a:#FBD76F;--b:#F3B63A;--c:#D9951A;--d:#7A4B05;--gl:#FFD97A}
+.admin-only{display:none!important}body.admin .admin-only{display:flex!important}
+.btn{font:600 14px/1 var(--font-ui);padding:12px 20px;border-radius:999px;border:1px solid var(--cherry);background:var(--cherry);color:#fff;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--card-ink);border-color:var(--card-edge)}
+.btn:hover{filter:brightness(1.12)}.btn:focus-visible{outline:2px solid var(--cherry-hi);outline-offset:2px}
+.row{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:22px}
+.sheet-admin{gap:8px;flex-wrap:wrap;margin-top:14px}
+.sheet.small{width:min(400px,100%)}
+.fld{display:block;margin-top:16px;font:600 11px/1.3 var(--font-ui);letter-spacing:.14em;text-transform:uppercase;color:var(--card-soft)}
+.fld input,.fld textarea{display:block;width:100%;margin-top:7px;padding:11px 13px;border-radius:12px;border:1px solid var(--card-edge);background:rgba(255,255,255,.07);color:var(--card-ink);font:400 16px/1.5 var(--font-poem);text-transform:none;letter-spacing:0}
+.fld textarea{min-height:160px;resize:vertical;line-height:1.6}
+.fld input:focus,.fld textarea:focus{outline:2px solid var(--cherry-hi);outline-offset:1px}
+.fld b{color:var(--card-ink);letter-spacing:.04em}
+.picker{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px;margin-top:10px}
+.pick{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px 9px;border-radius:14px;border:1px solid var(--card-edge);background:transparent;color:var(--card-ink);cursor:pointer;font:500 11.5px/1.25 var(--font-ui);text-align:center}
+.pick svg{width:54px;height:54px}
+.pick:hover{background:var(--card-edge)}
+.pick[aria-pressed=true]{border-color:var(--cherry-hi);background:rgba(242,80,107,.15);box-shadow:0 0 0 1px var(--cherry-hi)}
+.err{margin:12px 0 0;font:500 13px var(--font-ui);color:var(--t-red)}
+.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.adminbar{display:none;position:fixed;left:50%;bottom:max(14px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;gap:8px;align-items:center;padding:8px 8px 8px 18px;border-radius:999px;background:var(--card);color:var(--card-ink);border:1px solid var(--card-edge);box-shadow:0 14px 40px rgba(0,0,0,.4);font:600 11px var(--font-ui);letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+body.admin .adminbar{display:flex}body.admin .foot{padding-bottom:120px}
+.adminbar .btn{padding:10px 16px;font-size:13px;letter-spacing:0;text-transform:none}
+.toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);z-index:70;padding:10px 18px;border-radius:999px;background:var(--card);color:var(--card-ink);border:1px solid var(--card-edge);font:500 13px var(--font-ui);box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.album{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--soil),#33130A);padding-block:30px 44px}
+.album h2{margin:0;font:400 clamp(2.2rem,7vw,3.2rem)/1 var(--font-display);color:var(--soil-ink)}
+.album h2 em{color:var(--pink)}
+.album-sub{margin:10px 0 0;font:italic 400 1.15rem/1.5 var(--font-poem);color:var(--soil-soft)}
+.orn{display:block;width:min(250px,70%);height:auto;margin:0 0 6px -8px}
+.polas{margin-top:40px;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,210px),1fr));gap:40px 28px;align-items:start}
+.pola{position:relative;margin:0;background:var(--ivory);padding:11px 11px 12px;border-radius:3px;box-shadow:0 14px 30px rgba(0,0,0,.42),0 2px 4px rgba(0,0,0,.3);transform:rotate(var(--r));transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s;cursor:pointer;outline:none;animation:fadeUp .7s cubic-bezier(.2,.8,.2,1) calc(var(--i,0)*70ms) backwards}
+.pola::before{content:"";position:absolute;top:-11px;left:50%;width:78px;height:22px;transform:translateX(-50%) rotate(-3deg);background:var(--tape);opacity:.88;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.pola:hover,.pola:focus-visible{transform:rotate(0) translateY(-8px) scale(1.03);box-shadow:0 26px 44px rgba(0,0,0,.5)}
+.pola:focus-visible{outline:2px solid var(--pink);outline-offset:4px}
+.pola img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;background:#E8DACB}
+.pola figcaption{min-height:32px;padding-top:10px;text-align:center;font:italic 400 1rem/1.3 var(--font-poem);color:#4A1D0C}
+.pola.ghost{background:transparent;border:1.5px dashed var(--chip-edge);box-shadow:none;cursor:default}
+body.admin .pola.ghost{cursor:pointer}
+.pola.ghost::before{opacity:.4}
+.ghost .ph{aspect-ratio:4/5;display:grid;place-items:center}.ghost svg{width:72%}
+.ghost figcaption{color:var(--soil-soft)}
+.lbsheet{width:min(640px,100%);text-align:center;padding-top:56px}
+.lbsheet img{display:block;max-width:100%;max-height:60vh;margin:0 auto;border-radius:6px;object-fit:contain}
+.lbcap{margin:14px 0 0;font:italic 400 1.2rem/1.4 var(--font-poem)}
+.lbsheet .fld{text-align:left;width:100%}
+.lbsheet .sheet-admin{flex-direction:column;align-items:stretch}
+@media (max-width:640px){.adminbar{flex-wrap:wrap;justify-content:center;border-radius:22px;padding:10px;width:calc(100% - 20px)}.adminbar span{display:none}.adminbar .btn{flex:1 1 auto;padding:10px 12px}.toast{bottom:150px}.polas{gap:34px 18px}}
+@media (max-width:640px){
+  .overlay{padding:0;align-items:end}
+  .sheet{border-radius:22px 22px 0 0;max-height:90vh;padding-bottom:max(22px,env(safe-area-inset-bottom,0px))}
+  .orb{top:26px;right:20px;width:48px;height:48px}
+  .head{padding-top:26px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+.scroller{position:relative;z-index:1;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.scroller::-webkit-scrollbar{display:none}
+.scroller #garden{width:auto;max-width:none;margin:0}
+.swipe{position:absolute;z-index:3;left:50%;bottom:14px;transform:translateX(-50%);margin:0;white-space:nowrap;font:italic 400 1.1rem var(--font-poem);color:var(--soil-soft);pointer-events:none;animation:nudge 2.6s ease-in-out infinite}
+@keyframes nudge{50%{transform:translateX(calc(-50% + 9px))}}
+.foot{display:flex;justify-content:flex-end;gap:8px;background:#33130A;padding:0 max(16px,env(safe-area-inset-right,0px)) max(22px,env(safe-area-inset-bottom,0px)) 16px}
+.mini{font:500 12px var(--font-ui);padding:8px 14px;border-radius:999px;background:transparent;border:1px solid var(--chip-edge);color:var(--soil-soft);opacity:.7;cursor:pointer}
+.mini:hover{opacity:1}
+.pola.cover figcaption{min-height:0;padding-top:12px}
+.pola.cover figcaption b{display:block;font:600 1.35rem/1.15 var(--font-display);color:#4A1D0C}
+.pola.cover figcaption small{display:block;margin-top:3px;font:400 .78rem var(--font-ui);letter-spacing:.06em;color:#8A5944}
+.cover .sh{position:absolute;inset:0;background:var(--ivory);border-radius:3px;box-shadow:0 6px 14px rgba(0,0,0,.35);z-index:-1;transform:rotate(-5deg)}
+.cover .sh.b{transform:rotate(4.5deg)}
+.albsheet{width:min(780px,100%)}
+.agrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:22px}
+@media (min-width:620px){.agrid{grid-template-columns:repeat(3,1fr)}}
+.thumb{display:block;padding:6px 6px 8px;background:var(--ivory);border:0;border-radius:3px;box-shadow:0 8px 18px rgba(0,0,0,.3);cursor:pointer;text-align:center;color:#4A1D0C}
+.thumb img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
+.thumb span{padding-top:7px;font:italic 400 .98rem/1.25 var(--font-poem);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.thumb:focus-visible{outline:2px solid var(--cherry-hi);outline-offset:3px}
+.ulist{max-height:44vh;overflow:auto;margin-top:6px}
+.urow{display:flex;gap:12px;align-items:center;margin-top:12px}
+.urow img{width:64px;height:64px;object-fit:cover;border-radius:8px;flex:none}
+.urow input{flex:1;min-width:0;padding:11px 13px;border-radius:12px;border:1px solid var(--card-edge);background:rgba(255,255,255,.07);color:var(--card-ink);font:400 16px var(--font-poem)}
+@media (max-width:640px){.polas{grid-template-columns:repeat(2,1fr);gap:34px 16px}.pola figcaption{font-size:.95rem}.head{padding-top:22px}.eyebrow{font-size:11px}}
+</style>
+
+<div class="sky" id="sky">
+  <div class="stars" id="stars" aria-hidden="true"></div>
+  <div class="orb" aria-hidden="true"></div>
+  <header class="wrap head">
+    <div class="head-text">
+      <p class="eyebrow">A garden of small poems</p>
+      <h1>The <em>Poetry</em> Garden</h1>
+      <p class="lede">Planted for <span class="friend"></span>. Touch a blossom, and it will unfold the verse it keeps.</p>
+      
+    </div>
+    
+  </header>
+  <div class="scene" id="scene">
+    <div class="soil-bg" id="soilbg"></div>
+    <div class="scroller" id="scroller"><svg id="garden" role="group" aria-label="A garden of flowers. Each flower opens a poem."></svg></div><p class="swipe" id="swipe" hidden>swipe to wander on →</p>
+  </div>
+  <canvas id="petals" aria-hidden="true"></canvas>
+</div>
+
+<section class="soil">
+  <div class="wrap">
+    <h2>All the poems</h2>
+    <ul class="chips" id="chips"></ul>
+    
+  </div>
+</section>
+
+<section class="album" id="album">
+  <div class="wrap">
+    <svg class="orn" id="orn" viewBox="-150 -50 300 100" aria-hidden="true"></svg>
+    <h2>The Garden <em>Album</em></h2>
+    <p class="album-sub">Little moments, pressed in like petals.</p>
+    <div class="polas" id="polas"></div>
+  </div>
+</section>
+
+<footer class="foot"><button class="mini" id="mode" type="button"></button><button class="mini" id="gardener" type="button">Gardener</button></footer>
+
+<div class="overlay" id="overlay" hidden>
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="pt">
+    <button class="x" id="close" type="button" aria-label="Close poem">×</button>
+    <div class="sheet-top">
+      <svg class="mini" id="mini" viewBox="-60 -60 120 120" aria-hidden="true"></svg>
+      <div><p class="kicker" id="pk"></p><h2 id="pt"></h2></div>
+    </div>
+    <div class="poem" id="pbody"></div>
+    <p class="sign">Planted for <span class="friend"></span></p>
+    <div class="sheet-admin admin-only"><button class="btn ghost" id="editPoem" type="button">Edit poem</button><button class="btn ghost" id="delPoem" type="button">Delete</button></div>
+    <div class="pager">
+      <button id="prev" type="button">← Previous</button>
+      <span id="pos"></span>
+      <button id="next" type="button">Next →</button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="file" accept="image/*" multiple hidden>
+<div class="toast" id="toast" role="status" hidden></div>
+<div class="adminbar" id="adminbar" role="toolbar" aria-label="Gardener tools"><span>Gardener</span><button class="btn" id="plant" type="button">+ Plant a poem</button><button class="btn ghost" id="addph" type="button">+ Add photos</button><button class="btn ghost" id="logout" type="button">Log out</button></div>
+
+<div class="overlay" id="login" hidden><div class="sheet small" id="lsheet" role="dialog" aria-modal="true" aria-labelledby="lt">
+  <button class="x" data-close="login" type="button" aria-label="Close">×</button>
+  <p class="kicker" style="--fa:var(--t-red)">The gardener's gate</p><h2 id="lt">Enter the secret</h2>
+  <label class="fld">Password<input id="pw" type="password" autocomplete="current-password"></label>
+  <p class="err" id="pwerr" hidden>That isn't the garden's secret. Try again.</p>
+  <div class="row"><button class="btn" id="enter" type="button">Enter the garden</button></div>
+</div></div>
+
+<div class="overlay" id="editor" hidden><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="et">
+  <button class="x" data-close="editor" type="button" aria-label="Close">×</button>
+  <p class="kicker" style="--fa:var(--t-pink)">Gardener</p><h2 id="et">Plant a poem</h2>
+  <label class="fld">Title<input id="ptitle" maxlength="60" placeholder="e.g. Monsoon Morning"></label>
+  <label class="fld">Poem<textarea id="ptext" placeholder="One line per row. Leave a blank row between stanzas."></textarea></label>
+  <div class="fld">Choose its flower: <b id="pickname"></b></div><div class="picker" id="picker"></div>
+  <p class="err" id="perr" hidden>Give it a title and a few lines first.</p>
+  <div class="row"><button class="btn ghost" data-close="editor" type="button">Cancel</button><button class="btn" id="psave" type="button">Plant it</button></div>
+</div></div>
+
+<div class="overlay" id="alb" hidden><div class="sheet albsheet" role="dialog" aria-modal="true" aria-labelledby="albt">
+  <button class="x" data-close="alb" type="button" aria-label="Close">×</button>
+  <p class="kicker" id="albn" style="--fa:var(--t-pink)"></p><h2 id="albt"></h2>
+  <div class="agrid" id="agrid"></div>
+  <div class="sheet-admin admin-only"><button class="btn ghost" id="addhere" type="button">+ Add photos to this album</button></div>
+</div></div>
+
+<div class="overlay" id="upl" hidden><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="ut">
+  <button class="x" data-close="upl" type="button" aria-label="Close">×</button>
+  <p class="kicker" style="--fa:var(--t-pink)">Gardener</p><h2 id="ut">New photos</h2>
+  <label class="fld">Album<input id="ualb" list="albs" maxlength="40" placeholder="e.g. Monsoon days"></label><datalist id="albs"></datalist>
+  <div class="ulist" id="ulist"></div>
+  <div class="row"><button class="btn ghost" data-close="upl" type="button">Cancel</button><button class="btn" id="usave" type="button">Add to album</button></div>
+</div></div>
+
+<div class="overlay" id="lb" hidden><div class="sheet lbsheet" role="dialog" aria-modal="true" aria-label="Photo">
+  <button class="x" data-close="lb" type="button" aria-label="Close">×</button>
+  <img id="lbimg" alt=""><p class="lbcap" id="lbcap"></p>
+  <div class="sheet-admin admin-only"><label class="fld">Note<input id="lbcapin" maxlength="140" placeholder="A little note (optional)"></label><button class="btn ghost" id="delPh" type="button">Delete photo</button></div>
+  <div class="pager"><button id="lbprev" type="button">← Previous</button><span id="lbpos"></span><button id="lbnext" type="button">Next →</button></div>
+</div></div>
+
+<script type="application/json" id="gd">{}</script>
+<script id="app">
+const P0=(()=>{const b=document.body.cloneNode(true);b.querySelectorAll('script').forEach(n=>n.remove());return b.innerHTML})();
+const FRIEND = "Tarini";
+
+const SEED = [
+  { id:'tarini-1', kind:'lotus', tone:'blue', label:'Blue Lotus', title:'The Girl Who Wanted the Sun', lines:["When I die, don't bury me beneath this earth,", "I've spent enough of my life questioning my worth. Don't cry for me or count the good I've done, I was just a girl who wanted to see the sun.", "", "Take me to the mountains,", "let me see the sea,", "For there were so many places I wanted to be.", "And when the first rain falls upon the ground, Remember me in the smell of earth all around.", "", "When the moon appears, remember how I loved her light,", "How I'd look for her through my window every night.", "", "Tell my father that beneath my anger and pride,", "There was a little girl who wanted him by her side.", "When I said I hated being his daughter,", "All I wanted was to make him smile a little longer.", "", "Tell my mother she deserved a life of her own,", "Not just a thousand duties and dreams left unknown.", "She deserved to travel, to laugh and be free, To be a woman first, beyond what a mother must be.", "", "Tell my brother he was my brightest star,", "My favourite little reason, no matter how far.", "Tell him to dream and reach beyond the sky,", "And never let the world teach him not to fly.", "", "Tell my friends I laughed at every silly joke,", "That their little stories meant more than I spoke.", "And when winter comes,", "remember how I hated the cold,", "Keep me in your stories, in the memories you hold.", "", "And if you ever miss me, look up at the sky,", "Smell the earth after rain, watch the birds fly.", "Remember the girl who dreamed of being free,", "Who wanted the whole world, not just a place to be.", "", "And if you wonder why I dreamed of a different destiny,", "Remember, because it's the death which frees me..", "", "-Aaradhya."]},
+  { id:'red-1', kind:'rose', tone:'red', label:'Cherry red rose', title:'Cherry Red', lines:[
+    'Say it plainly, the red one says,','no hedging, no soft landing.','I am a small bright decision','the garden made in the dark.','',
+    'Come close. Mind the thorns.','Everything worth holding has edges.']},
+  { id:'pink-1', kind:'rose', tone:'pink', label:'Pink rose', title:'Soft Spoken', lines:[
+    'Not every bloom needs to shout.','Some open like a held breath','finally let out, a pink','so quiet you lean in to hear it.','',
+    'Lean in.','Gentleness has its own weather.']},
+  { id:'mogra-1', kind:'mogra', tone:'white', label:'Mogra', title:'Night-Blooming', lines:[
+    'Mogra opens after the lamps are lit,','small white lanterns for the hour','when no one is watching.','The air learns her name first.','',
+    'Some things arrive as scent','before you see the shape of them.']},
+  { id:'red-2', kind:'rose', tone:'red', label:'Cherry red rose', title:'Ember Hour', lines:[
+    'At dusk the roses keep the light','the sky has just let go of,','the way a hand stays warm','after someone leaves it.','',
+    'Nothing is lost yet.','It is only slowly changing color.']},
+  { id:'lotus-pink', kind:'lotus', tone:'lpink', label:'Pink lotus', title:'From the Mud', lines:[
+    'The lotus does not argue with the dark water.','It drinks what is given,','climbs through the heavy silence,','and opens, unhurried,','',
+    'as if the mud had always been','a kind of teacher.']},
+  { id:'lotus-blue', kind:'lotus', tone:'blue', label:'Blue lotus', title:'Still Water', lines:[
+    'Be the pond that holds the sky','without trying to keep it.','Let the clouds cross.','Let the blue lotus rest on its own reflection.','',
+    'You are allowed to be quiet','and still be enormous.']},
+  { id:'pink-2', kind:'rose', tone:'pink', label:'Pink rose', title:'Letter to Morning', lines:[
+    'Dear morning, I came with nothing','but a wet face and an open window.','You gave me a color','that has no name in any language,','',
+    'only a feeling like forgiveness','arriving before I asked.']},
+  { id:'mogra-2', kind:'mogra', tone:'white', label:'Mogra', title:'What Stays', lines:[
+    'Crush a petal and it still gives.','That is the whole lesson,','folded into a bead of white.','',
+    'Wear it in your hair, on your wrist,','in the pocket of a long day.','Fragrance is a memory that needs no photograph.']}
+];
+let GD={};try{GD=JSON.parse(document.getElementById('gd').textContent)}catch(e){}
+let POEMS = GD.poems || SEED.map(p=>({...p}));
+let PHOTOS = GD.photos || [];
+
+const TONE_TOKEN = { red:'--t-red', pink:'--t-pink', lpink:'--t-pink', blue:'--t-blue', white:'--t-white', rust:'--t-rust', gold:'--t-gold' };
+const DOT = { red:'var(--cherry-hi)', pink:'var(--pink)', lpink:'var(--pink)', blue:'var(--royal-hi)', white:'var(--ivory)', rust:'#E07A3F', gold:'var(--gold)' };
+
+const LAYOUTS = {
+  wide: { W:1100, H:640, G:520, y0:150,
+    pond:{ cx:625, cy:560, rx:200, ry:30 },
+    pos:{
+      'red-1':{x:90,y:270,s:1.15,lean:16}, 'pink-1':{x:200,y:360,s:1.05,lean:-14},
+      'mogra-1':{x:310,y:335,s:1.4,lean:12}, 'red-2':{x:420,y:235,s:1.3,lean:-12},
+      'lotus-pink':{x:555,y:562,s:1.25}, 'lotus-blue':{x:695,y:566,s:1.1},
+      'pink-2':{x:830,y:285,s:1.2,lean:14}, 'mogra-2':{x:960,y:355,s:1.4,lean:-12}
+    }},
+  narrow: { W:400, H:700, G:560, y0:130,
+    pond:{ cx:206, cy:604, rx:170, ry:28 },
+    pos:{
+      'red-1':{x:60,y:225,s:1.0,lean:10}, 'pink-1':{x:160,y:255,s:.95,lean:-10},
+      'mogra-1':{x:265,y:225,s:1.15,lean:10}, 'red-2':{x:358,y:270,s:.95,lean:-8},
+      'pink-2':{x:112,y:395,s:.95,lean:12}, 'mogra-2':{x:312,y:410,s:1.15,lean:-10},
+      'lotus-pink':{x:150,y:606,s:1.0}, 'lotus-blue':{x:262,y:610,s:.95}
+    }}
+};
+
+const HITR = { rose:38, mogra:40, lotus:54, blossom:36, daisy:38 };
+const MK = { rose:[1.45,0], lotus:[.95,28], mogra:[1.25,4], blossom:[1.5,0], daisy:[1.35,0] };
+const FLOWERS = [
+ {name:'Cherry Red Rose',kind:'rose',tone:'red'},{name:'Pink Rose',kind:'rose',tone:'pink'},{name:'Mogra',kind:'mogra',tone:'white'},
+ {name:'Pink Lotus',kind:'lotus',tone:'lpink'},{name:'Blue Lotus',kind:'lotus',tone:'blue'},{name:'White Lotus',kind:'lotus',tone:'white'},
+ {name:'Blush Rose',kind:'rose',tone:'lpink'},{name:'Amber Rose',kind:'rose',tone:'rust'},
+ {name:'Cherry Blossom',kind:'blossom',tone:'lpink'},{name:'Hibiscus',kind:'blossom',tone:'red'},{name:'Frangipani',kind:'blossom',tone:'white'},{name:'Forget-me-not',kind:'blossom',tone:'blue'},
+ {name:'Marigold',kind:'daisy',tone:'gold'},{name:'Cosmos',kind:'daisy',tone:'pink'},{name:'Dahlia',kind:'daisy',tone:'red'},{name:'Chrysanthemum',kind:'daisy',tone:'rust'},{name:'Cornflower',kind:'daisy',tone:'blue'}];
+
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function rng(seed){ let s = seed; return () => (s = (s*1664525 + 1013904223) % 4294967296) / 4294967296; }
+const f1 = n => n.toFixed(1);
+
+/* ---------- flower drawings (origin = bloom center) ---------- */
+function roseSVG(){
+  const R = 30; let s = '';
+  for(let i=0;i<6;i++){ const a=(i*60+10)*Math.PI/180; s += `<circle class="pa petal" cx="${f1(Math.cos(a)*R*.52)}" cy="${f1(Math.sin(a)*R*.52)}" r="${R*.5}"/>`; }
+  for(let i=0;i<5;i++){ const a=(i*72+30)*Math.PI/180; s += `<circle class="pb petal" cx="${f1(Math.cos(a)*R*.34)}" cy="${f1(Math.sin(a)*R*.34)}" r="${R*.38}"/>`; }
+  for(let i=0;i<4;i++){ const a=(i*90+15)*Math.PI/180; s += `<circle class="pc petal" cx="${f1(Math.cos(a)*R*.16)}" cy="${f1(Math.sin(a)*R*.16)}" r="${R*.3}"/>`; }
+  s += `<path class="swirl" d="M-2,0 a2,2 0 1,1 4,0 a4,4 0 1,1 -8,0 a6.5,6.5 0 1,1 13,0"/>`;
+  return s;
+}
+function lotusSVG(){
+  const petal = 'M0,0 C-11,-8 -13,-30 0,-46 C13,-30 11,-8 0,0Z';
+  let s = `<ellipse class="pad" cx="0" cy="5" rx="62" ry="12"/>`;
+  [-74,-50,-26,0,26,50,74].forEach(a => s += `<path class="pa petal" d="${petal}" transform="rotate(${a})"/>`);
+  [-55,-28,0,28,55].forEach(a => s += `<path class="pb petal" d="${petal}" transform="rotate(${a}) scale(.86)"/>`);
+  [-32,0,32].forEach(a => s += `<path class="pc petal" d="${petal}" transform="rotate(${a}) scale(.62)"/>`);
+  s += `<circle class="seed" cx="0" cy="-9" r="5"/>`;
+  return s;
+}
+function mograBloom(cx,cy,k){
+  let s = `<g transform="translate(${cx},${cy}) scale(${k})">`;
+  for(let i=0;i<8;i++) s += `<ellipse class="pa petal" cx="0" cy="-7" rx="4.6" ry="7.5" transform="rotate(${i*45})"/>`;
+  for(let i=0;i<5;i++) s += `<ellipse class="pb petal" cx="0" cy="-4" rx="3.6" ry="5.5" transform="rotate(${i*72+20})"/>`;
+  return s + `<circle class="seed2" r="1.9"/></g>`;
+}
+const leafAt = (x,y,r,k) => `<path class="leaf" d="M0,0 C6,-9 20,-9 28,0 C20,9 6,9 0,0Z" transform="translate(${f1(x)},${f1(y)}) rotate(${r}) scale(${k})"/>`;
+function mograSVG(){
+  let s = leafAt(-3,14,-160,1) + leafAt(3,14,-20,1) + leafAt(0,8,-95,.8);
+  s += `<ellipse class="pb petal" cx="-27" cy="-8" rx="2.8" ry="7" transform="rotate(-30 -27 -8)"/>`;
+  s += `<ellipse class="pb petal" cx="27" cy="-10" rx="2.8" ry="7" transform="rotate(30 27 -10)"/>`;
+  s += mograBloom(-17,10,1) + mograBloom(17,8,1.05) + mograBloom(-3,-16,.9) + mograBloom(0,2,1.25);
+  return s;
+}
+function blossomSVG(){
+  const pet='M0,0 C-14,-6 -16,-24 -7,-27 C-3,-28 0,-24 0,-21 C0,-24 3,-28 7,-27 C16,-24 14,-6 0,0Z'; let s='';
+  for(let i=0;i<5;i++) s+=`<path class="pa petal" d="${pet}" transform="rotate(${i*72})"/>`;
+  for(let i=0;i<5;i++) s+=`<path class="pb petal" d="${pet}" transform="rotate(${i*72+36}) scale(.62)"/>`;
+  return s+`<circle class="pc" r="4.5"/><circle class="seed" r="2.2"/>`;
+}
+function daisySVG(){
+  let s='';
+  for(let i=0;i<16;i++) s+=`<ellipse class="pa petal" cx="0" cy="-20" rx="4.6" ry="11" transform="rotate(${i*22.5})"/>`;
+  for(let i=0;i<12;i++) s+=`<ellipse class="pb petal" cx="0" cy="-13" rx="3.8" ry="8" transform="rotate(${i*30+15})"/>`;
+  return s+`<circle class="pc" r="8"/><circle class="seed" r="3.4"/>`;
+}
+const BLOOM = { rose:roseSVG, lotus:lotusSVG, mogra:mograSVG, blossom:blossomSVG, daisy:daisySVG };
+function autoPos(p,c){
+  const {W,G,pond}=L, nar=W<500, f=(c*.618+.13)%1;
+  if(p.kind==='lotus') return {x:pond.cx-pond.rx*.55+(c%5)*pond.rx*.28, y:pond.cy+4+(c%2)*4, s:1};
+  const sc={rose:1,mogra:1.1,blossom:1.5,daisy:1.4}[p.kind]||1;
+  return {x:50+f*(W-100), y:G-(nar?90:70)-((c*37)%(nar?150:110)), s:sc*(1+(c%3)*.06), lean:((c*7)%5-2)*6};
+}
+
+/* ---------- scene ---------- */
+const L = { H:600, G:470, y0:120 };
+const ROW = [275,335,240,350,260,320], SC = { rose:1.15, mogra:1.35, blossom:1.5, daisy:1.4 };
+let lastW = 0;
+const readSet = new Set();
+
+function grass(r, W, G, n, pond, front){
+  let s = '';
+  for(let i=0;i<n;i++){
+    const x = r()*W;
+    if(Math.abs(x-pond.cx) < pond.rx*.85) continue;
+    const h = (front?10:16) + r()*(front?18:30), lean = (r()-.5)*16;
+    s += `<path class="blade${front?' f':''}" d="M${f1(x)},${G+5} Q${f1(x+lean*.3)},${f1(G-h*.5)} ${f1(x+lean)},${f1(G-h)}"/>`;
+  }
+  return s;
+}
+
+function build(){
+  const {H,G,y0} = L, n = POEMS.length, nar = innerWidth < 640;
+  const hh = $('sky').querySelector('.head').offsetHeight;
+  const SH = nar ? Math.max(380, Math.min(500, innerHeight - hh - 24)) : 520, k = SH/(H-y0);
+  const GAP = nar ? 112 : 150, W = Math.max(($('scroller').clientWidth || innerWidth)/k, n*GAP + 140), x0 = (W - n*GAP)/2;
+  lastW = innerWidth;
+  const r = rng(7), none = {cx:-9e3, rx:0};
+  let out = `<defs><linearGradient id="soilg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--soil-top)"/><stop offset="1" style="stop-color:var(--soil)"/></linearGradient></defs>`;
+  out += `<path d="M0,${G} C${W*.25},${G-9} ${W*.5},${G+7} ${W*.75},${G-5} S${W*.95},${G+3} ${W},${G} L${W},${H} L0,${H}Z" fill="url(#soilg)"/>`;
+  out += grass(r,W,G,Math.round(W/20),none,false);
+  POEMS.forEach((p,i) => {
+    if(p.kind !== 'lotus') return;
+    const cx = x0+GAP*(i+.5), cy = G+56, rx = Math.max(GAP*.62,78);
+    out += `<ellipse class="pond" cx="${cx}" cy="${cy}" rx="${rx}" ry="22"/><ellipse class="ripple" cx="${cx}" cy="${cy}" rx="${rx*.78}" ry="15"/><ellipse class="ripple" cx="${cx}" cy="${cy}" rx="${rx*.5}" ry="9"/>`;
+  });
+  POEMS.forEach((p,i) => {
+    const lotus = p.kind === 'lotus';
+    const o = { x:x0+GAP*(i+.5), y:lotus?G+58:ROW[i%6], s:lotus?1:(SC[p.kind]||1.2), lean:((i*7)%5-2)*5 };
+    const label = esc(`Open the poem "${p.title}", ${p.label}`);
+    const common = `class="flower ${p.tone}${lotus?' lotus':''}${readSet.has(i)?' read':''}" tabindex="0" role="button" data-i="${i}" aria-label="${label}"`;
+    const sway = `--dur:${5.2+(i%3)*.9}s;--delay:${-i*.8}s`;
+    const hr = HITR[p.kind]*o.s;
+    if(lotus){
+      out += `<g ${common} style="--ox:${o.x}px;--oy:${o.y}px;${sway}"><g class="sway">
+        <circle class="glow" cx="${o.x}" cy="${o.y-22*o.s}" r="${46*o.s}"/>
+        <g transform="translate(${o.x},${o.y}) scale(${o.s})"><g class="bloom-inner">${lotusSVG()}</g></g>
+        <circle class="hit" cx="${o.x}" cy="${o.y-22*o.s}" r="${hr}"/><circle class="ring" cx="${o.x}" cy="${o.y-22*o.s}" r="${hr+4}"/></g></g>`;
+    } else {
+      const root = G + 10 + (i%3)*9, top = o.y, px = o.x, lean = o.lean, p1y = (top+root)/2;
+      let leaves = '';
+      [.42,.68].forEach((t,kk) => {
+        const bx = px + 2*(1-t)*t*lean, by = (1-t)*(1-t)*top + 2*(1-t)*t*p1y + t*t*root;
+        leaves += kk%2 ? leafAt(bx,by,-152,o.s*.85) : leafAt(bx,by,-28,o.s*.85);
+      });
+      out += `<g ${common} style="--ox:${px}px;--oy:${root}px;${sway}"><g class="sway">
+        <path class="stem" d="M${px},${top} Q${px+lean},${f1(p1y)} ${px},${root}"/>${leaves}
+        <circle class="glow" cx="${px}" cy="${top}" r="${hr*1.15}"/>
+        <g transform="translate(${px},${top}) scale(${o.s})"><g class="bloom-inner">${BLOOM[p.kind]()}</g></g>
+        <circle class="hit" cx="${px}" cy="${top}" r="${hr}"/><circle class="ring" cx="${px}" cy="${top}" r="${hr+4}"/></g></g>`;
+    }
+  });
+  out += grass(r,W,G,Math.round(W/28),none,true);
+  const svg = $('garden');
+  svg.setAttribute('viewBox', `0 ${y0} ${W} ${H-y0}`);
+  svg.style.width = W*k+'px'; svg.style.height = SH+'px';
+  svg.innerHTML = out;
+  layoutSoil();
+  const sc = $('scroller'); $('swipe').hidden = !(sc.scrollWidth > sc.clientWidth+8) || sc.scrollLeft > 8;
+}
+
+function layoutSoil(){
+  const h = $('garden').getBoundingClientRect().height;
+  const soilH = h * (L.H - L.G) / (L.H - L.y0);
+  $('soilbg').style.height = soilH + 'px';
+  groundLimit = Math.max(120, ($('sky').getBoundingClientRect().height) - soilH * .55);
+}
+
+/* ---------- stars, petals ---------- */
+(function stars(){
+  const r = rng(21); let h = '';
+  for(let i=0;i<70;i++) h += `<i style="left:${f1(r()*100)}%;top:${f1(r()*58)}%;--s:${f1(1+r()*1.8)}px;--d:${f1(r()*4)}s"></i>`;
+  $('stars').innerHTML = h;
+})();
+
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cv = $('petals'), ctx = cv.getContext('2d');
+let cw = 0, ch = 0, groundLimit = 400;
+const ps = [];
+const PCOL = ['#D2042D','#F4A3BC','#FFFFFF','#F2506B','#FFC6D6'];
+function newPetal(init){
+  return { x:Math.random()*cw, y:init?Math.random()*Math.max(groundLimit,50):-20, vy:.25+Math.random()*.45,
+    ph:Math.random()*6.28, sp:.5+Math.random()*.8, s:3+Math.random()*3.2, rot:Math.random()*6.28,
+    vr:(Math.random()-.5)*.03, c:PCOL[(Math.random()*PCOL.length)|0], a:.55+Math.random()*.35 };
+}
+function fitCanvas(){
+  const r = $('sky').getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio||1, 2);
+  cw = r.width; ch = r.height;
+  cv.width = cw*dpr; cv.height = ch*dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  const n = cw < 640 ? 12 : 22;
+  while(ps.length < n) ps.push(newPetal(true));
+  ps.length = n;
+}
+function tick(t){
+  ctx.clearRect(0,0,cw,ch);
+  for(const p of ps){
+    p.y += p.vy; p.x += Math.sin(t/1000*p.sp + p.ph)*.45; p.rot += p.vr;
+    if(p.y > groundLimit) Object.assign(p, newPetal(false));
+    ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.globalAlpha = p.a; ctx.fillStyle = p.c;
+    ctx.beginPath(); ctx.ellipse(0,0,p.s,p.s*.55,0,0,6.283); ctx.fill(); ctx.restore();
+  }
+  requestAnimationFrame(tick);
+}
+
+/* ---------- poem sheet ---------- */
+let current = -1, from = 'flower';
+const overlay = $('overlay'), sheet = $('sheet');
+
+function miniBloom(p){
+  const [k,dy] = MK[p.kind];
+  $('mini').innerHTML = `<g class="${p.tone}"><g transform="translate(0,${dy}) scale(${k})">${BLOOM[p.kind]()}</g></g>`;
+}
+function fill(i){
+  const p = POEMS[i];
+  current = i;
+  sheet.style.setProperty('--fa', `var(${TONE_TOKEN[p.tone]})`);
+  $('pk').textContent = p.label;
+  $('pt').textContent = p.title;
+  let k = 0;
+  $('pbody').innerHTML = p.lines.map(l => l === '' ? '<span class="gap"></span>' : `<span class="ln" style="animation-delay:${Math.min(k++*90,1100)}ms">${esc(l)}</span>`).join('');
+  $('pos').textContent = `${i+1} / ${POEMS.length}`;
+  miniBloom(p);
+  markRead(i);
+  sheet.scrollTop = 0;
+}
+function markRead(i){
+  readSet.add(i);
+  const fl = document.querySelector(`.flower[data-i="${i}"]`); if(fl) fl.classList.add('read');
+  const ch = document.querySelector(`.chip[data-i="${i}"]`); if(ch) ch.classList.add('read');
+}
+function openPoem(i, src){
+  from = src;
+  fill(i);
+  overlay.hidden = false;
+  sheet.style.animation = 'none'; void sheet.offsetWidth; sheet.style.animation = '';
+  document.documentElement.style.overflow = 'hidden';
+  $('close').focus();
+}
+function closePoem(){
+  overlay.hidden = true;
+  document.documentElement.style.overflow = '';
+  const back = document.querySelector(from === 'chip' ? `.chip[data-i="${current}"]` : `.flower[data-i="${current}"]`);
+  if(back) back.focus({preventScroll:true});
+}
+function step(d){ fill((current + d + POEMS.length) % POEMS.length); }
+
+$('garden').addEventListener('click', e => { const f = e.target.closest('.flower'); if(f) openPoem(+f.dataset.i, 'flower'); });
+$('garden').addEventListener('keydown', e => {
+  if(e.key !== 'Enter' && e.key !== ' ') return;
+  const f = e.target.closest('.flower'); if(f){ e.preventDefault(); openPoem(+f.dataset.i, 'flower'); }
+});
+$('close').addEventListener('click', closePoem);
+$('prev').addEventListener('click', () => step(-1));
+$('next').addEventListener('click', () => step(1));
+overlay.addEventListener('click', e => { if(e.target === overlay) closePoem(); });
+document.addEventListener('keydown', e => {
+  if(overlay.hidden) return;
+  if(e.key === 'Escape') closePoem();
+  else if(e.key === 'ArrowLeft') step(-1);
+  else if(e.key === 'ArrowRight') step(1);
+  else if(e.key === 'Tab'){
+    const f = [...sheet.querySelectorAll('button')], first = f[0], last = f[f.length-1];
+    if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+    else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+  }
+});
+
+/* ---------- index chips, theme, boot ---------- */
+function renderChips(){ $('chips').innerHTML = POEMS.map((p,i) =>
+  `<li><button class="chip${readSet.has(i)?' read':''}" type="button" data-i="${i}" style="--dot:${DOT[p.tone]}"><span class="dot"></span>${esc(p.title)} <small>${esc(p.label)}</small></button></li>`).join(''); }
+renderChips();
+$('chips').addEventListener('click', e => { const b = e.target.closest('.chip'); if(b) openPoem(+b.dataset.i, 'chip'); });
+
+document.querySelectorAll('.friend').forEach(n => n.textContent = FRIEND);
+
+
+const mode = $('mode');
+const isDark = () => { const t = document.documentElement.dataset.theme; return t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; };
+const paintMode = () => { mode.textContent = isDark() ? 'Switch to dawn' : 'Switch to night'; };
+mode.addEventListener('click', () => { document.documentElement.dataset.theme = isDark() ? 'light' : 'dark'; paintMode(); });
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', paintMode);
+paintMode();
+
+build();
+fitCanvas();
+matchMedia('(max-width: 640px)').addEventListener('change', () => { build(); fitCanvas(); });
+new ResizeObserver(() => { layoutSoil(); fitCanvas(); }).observe($('sky'));
+if(!reduce) requestAnimationFrame(tick);
+/* ---------- gardener mode, poems, album ---------- */
+const PASS_HASH='461fafcd9c8975a4cf904cb063c2196ae23b6f5fc3390fe52c1b172728662b21';   // SHA-256 of the gardener password
+let admin=false,editing=-1,pickKey=0,tt,lbl=[],lbp=0,curAlb='',defAlb='',pend=[];
+const newId=()=>'p'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const sha=async t=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t)))].map(b=>b.toString(16).padStart(2,'0')).join('');
+const IDS=['alb','login','editor','upl','lb'];
+const show=id=>{$(id).hidden=false;document.documentElement.style.overflow='hidden'};
+const hide=id=>{$(id).hidden=true;if(overlay.hidden&&IDS.every(i=>$(i).hidden))document.documentElement.style.overflow=''};
+function toast(m){const t=$('toast');t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,3600)}
+function twoStep(b,base,fn){let on=false;b.onclick=()=>{if(!on){on=true;b.textContent='Tap again to confirm';setTimeout(()=>{on=false;b.textContent=base},3000);return}on=false;b.textContent=base;fn()}}
+const ss=(k,v)=>{try{v==null?sessionStorage.removeItem(k):sessionStorage.setItem(k,v)}catch(e){}};
+const sg=k=>{try{return sessionStorage.getItem(k)}catch(e){return null}};
+const useArt=async()=>window.claude?await claude.use('artifact').catch(()=>null):null;
+
+/* saving: the garden republishes itself with its poems and photos embedded, so everyone who opens the link sees them */
+function buildDoc(d){
+  const j=JSON.stringify(d).replace(/</g,'\\u003c');
+  return '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style id="s0">'+$('s0').textContent+'</style></head><body>'+P0+'<script type="application/json" id="gd">'+j+'<\/script><script id="app">'+$('app').textContent+'<\/script></body></html>';
+}
+async function save(msg){
+  const a=await useArt();
+  if(!a){toast("Saving works only for the garden's owner, signed in to Claude.");return false}
+  const html=buildDoc({poems:POEMS,photos:PHOTOS});
+  if(html.length>15e6){toast('The album is full. Remove a few photos first.');return false}
+  try{ss('pg_msg',msg);ss('pg_admin','1');toast('Saving…');await a.publish(html);return true}
+  catch(e){ss('pg_msg',null);toast(e&&e.code==='conflict'?'Someone saved first. Reload and try again.':"Couldn't save. Are you signed in as the owner?");return false}
+}
+async function commit(msg,fn){
+  const sp=JSON.stringify(POEMS),sh=JSON.stringify(PHOTOS);fn();
+  if(await save(msg))return true;
+  POEMS=JSON.parse(sp);PHOTOS=JSON.parse(sh);readSet.clear();refresh();renderAlbum();return false;
+}
+function refresh(){build();renderChips()}
+function setAdmin(v){admin=v;document.body.classList.toggle('admin',v);$('gardener').hidden=v;ss('pg_admin',v?'1':null);renderAlbum()}
+
+$('gardener').onclick=()=>{$('pw').value='';$('pwerr').hidden=true;show('login');setTimeout(()=>$('pw').focus(),40)};
+async function tryLogin(){
+  let ok=false;try{ok=(await sha($('pw').value.trim()))===PASS_HASH}catch(e){}
+  if(!ok){$('pwerr').hidden=false;const s=$('lsheet');s.classList.remove('shake');void s.offsetWidth;s.classList.add('shake');return}
+  if(!(await useArt())){hide('login');toast("Gardener tools work only for the garden's owner, signed in to Claude.");return}
+  hide('login');setAdmin(true);toast('Welcome, gardener.');
+}
+$('enter').onclick=tryLogin;
+$('pw').addEventListener('keydown',e=>{if(e.key==='Enter')tryLogin()});
+$('logout').onclick=()=>{setAdmin(false);toast('Gardener mode off.')};
+
+/* poems */
+function drawPicker(){
+  $('picker').innerHTML=FLOWERS.map((f,k)=>{const [m,dy]=MK[f.kind];return `<button type="button" class="pick" data-k="${k}" aria-pressed="${k===pickKey}"><svg viewBox="-60 -60 120 120" aria-hidden="true"><g class="${f.tone}"><g transform="translate(0,${dy}) scale(${m})">${BLOOM[f.kind]()}</g></g></svg>${f.name}</button>`}).join('');
+  $('pickname').textContent=FLOWERS[pickKey].name;
+}
+$('picker').addEventListener('click',e=>{const b=e.target.closest('.pick');if(!b)return;pickKey=+b.dataset.k;[...$('picker').children].forEach(c=>c.setAttribute('aria-pressed',+c.dataset.k===pickKey));$('pickname').textContent=FLOWERS[pickKey].name});
+function openEditor(i){
+  editing=i;const p=i>=0?POEMS[i]:null;
+  $('et').textContent=p?'Edit poem':'Plant a poem';$('psave').textContent=p?'Save changes':'Plant it';
+  $('ptitle').value=p?p.title:'';$('ptext').value=p?p.lines.join('\n'):'';
+  pickKey=0;if(p){let k=FLOWERS.findIndex(f=>f.name.toLowerCase()===p.label.toLowerCase());if(k<0)k=FLOWERS.findIndex(f=>f.kind===p.kind&&f.tone===p.tone);pickKey=Math.max(0,k)}
+  $('perr').hidden=true;drawPicker();show('editor');setTimeout(()=>$('ptitle').focus(),40);
+}
+$('plant').onclick=()=>openEditor(-1);
+$('editPoem').onclick=()=>{overlay.hidden=true;openEditor(current)};
+twoStep($('delPoem'),'Delete',async()=>{overlay.hidden=true;document.documentElement.style.overflow='';await commit('Poem removed',()=>{POEMS.splice(current,1);readSet.clear()});refresh()});
+$('psave').onclick=async()=>{
+  const title=$('ptitle').value.trim(),lines=$('ptext').value.replace(/\r/g,'').split('\n').map(x=>x.trimEnd());
+  while(lines.length&&!lines[0])lines.shift();while(lines.length&&!lines[lines.length-1])lines.pop();
+  if(!title||!lines.length){$('perr').hidden=false;return}
+  const f=FLOWERS[pickKey],base={kind:f.kind,tone:f.tone,label:f.name,title,lines},ed=editing;
+  hide('editor');
+  await commit(ed>=0?'Poem saved':'Poem planted',()=>{if(ed>=0){const o=POEMS[ed];POEMS[ed]={...o,...base,id:o.kind===f.kind?o.id:newId()}}else POEMS.push({id:newId(),...base})});
+};
+
+/* album: photos are grouped into named albums; the home page shows one tidy cover per album */
+const TAPES=['rgba(210,4,45,.62)','rgba(65,105,225,.6)','rgba(183,65,14,.68)'],TILT=[-3.2,2.4,-1.4,3,-2.2,1.2];
+const GHOST=`<svg viewBox="-60 -60 120 120" aria-hidden="true"><g class="lpink" opacity=".5"><g transform="translate(0,28) scale(.95)">${BLOOM.lotus()}</g></g></svg>`;
+$('orn').innerHTML=`<g class="red" transform="translate(-95,0) scale(.95)">${BLOOM.rose()}</g><g class="lpink" transform="translate(0,14) scale(.8)">${BLOOM.lotus()}</g><g class="white" transform="translate(95,2) scale(1.1)">${BLOOM.mogra()}</g>`;
+const albums=()=>{const m=new Map();PHOTOS.forEach((p,i)=>{if(!m.has(p.album))m.set(p.album,[]);m.get(p.album).push(i)});return m};
+function renderAlbum(){
+  const m=albums();
+  $('polas').innerHTML=m.size?[...m].map(([name,ix],j)=>`<figure class="pola cover" tabindex="0" role="button" data-a="${esc(name)}" aria-label="Open album ${esc(name)}" style="--r:${TILT[j%6]}deg;--i:${j};--tape:${TAPES[j%3]}"><i class="sh"></i><i class="sh b"></i><img src="${PHOTOS[ix[0]].src}" alt="" loading="lazy"><figcaption><b>${esc(name)}</b><small>${ix.length} photo${ix.length>1?'s':''}</small></figcaption></figure>`).join('')
+  :[0,1,2].map(i=>`<div class="pola ghost" data-g style="--r:${TILT[i]}deg;--tape:${TAPES[i]}"><div class="ph">${GHOST}</div><figcaption>${admin?'Add the first photo':'Memories are being pressed here'}</figcaption></div>`).join('');
+  $('albs').innerHTML=[...m.keys()].map(n=>`<option value="${esc(n)}">`).join('');
+}
+const pickCover=e=>{const f=e.target.closest('.pola');if(!f)return;if('g' in f.dataset){if(admin){defAlb='';$('file').click()}}else openAlb(f.dataset.a)};
+$('polas').addEventListener('click',pickCover);
+$('polas').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pickCover(e)}});
+function openAlb(name){
+  curAlb=name;const ix=albums().get(name)||[];
+  $('albt').textContent=name;$('albn').textContent=ix.length+' photo'+(ix.length>1?'s':'');
+  $('agrid').innerHTML=ix.map(i=>`<button class="thumb" type="button" data-i="${i}"><img src="${PHOTOS[i].src}" alt="${esc(PHOTOS[i].note||'')}" loading="lazy">${PHOTOS[i].note?`<span>${esc(PHOTOS[i].note)}</span>`:''}</button>`).join('');
+  show('alb');
+}
+$('agrid').addEventListener('click',e=>{const b=e.target.closest('.thumb');if(b)openLb(+b.dataset.i)});
+const shrink=f=>new Promise((res,rej)=>{const r=new FileReader();r.onerror=rej;r.onload=()=>{const im=new Image();im.onerror=rej;im.onload=()=>{const k=Math.min(1,900/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.74))};im.src=r.result};r.readAsDataURL(f)});
+$('addph').onclick=()=>{defAlb='';$('file').click()};
+$('addhere').onclick=()=>{defAlb=curAlb;$('file').click()};
+$('file').onchange=async e=>{
+  const fs=[...e.target.files];e.target.value='';if(!fs.length)return;toast('Preparing '+fs.length+' photo'+(fs.length>1?'s':'')+'…');
+  pend=[];for(const f of fs){try{pend.push({src:await shrink(f)})}catch(err){toast("Couldn't read "+f.name)}}
+  if(!pend.length)return;
+  $('ualb').value=defAlb||(PHOTOS.length?PHOTOS[PHOTOS.length-1].album:'Moments');
+  $('ulist').innerHTML=pend.map((p,i)=>`<div class="urow"><img src="${p.src}" alt=""><input data-i="${i}" maxlength="140" placeholder="A little note (optional)"></div>`).join('');
+  show('upl');
+};
+$('usave').onclick=async()=>{
+  const alb=$('ualb').value.trim()||'Moments',items=[...$('ulist').querySelectorAll('input')].map(inp=>({id:newId(),src:pend[+inp.dataset.i].src,note:inp.value.trim(),album:alb}));
+  hide('upl');await commit('Photos added',()=>{PHOTOS.push(...items)});
+};
+function openLb(i){lbl=albums().get(PHOTOS[i].album)||[i];lbp=Math.max(0,lbl.indexOf(i));showLb()}
+function showLb(){const p=PHOTOS[lbl[lbp]];$('lbimg').src=p.src;$('lbimg').alt=p.note||'';$('lbcap').textContent=p.note||'';$('lbcap').hidden=!p.note;$('lbcapin').value=p.note||'';$('lbpos').textContent=`${lbp+1} / ${lbl.length}`;show('lb')}
+const lbStep=d=>{lbp=(lbp+d+lbl.length)%lbl.length;showLb()};
+$('lbprev').onclick=()=>lbStep(-1);$('lbnext').onclick=()=>lbStep(1);
+$('lbcapin').onchange=e=>{const v=e.target.value.trim(),i=lbl[lbp];commit('Note saved',()=>{PHOTOS[i].note=v})};
+twoStep($('delPh'),'Delete photo',()=>{const i=lbl[lbp];hide('lb');hide('alb');commit('Photo removed',()=>{PHOTOS.splice(i,1)})});
+
+document.addEventListener('click',e=>{const c=e.target.closest('[data-close]');if(c)hide(c.dataset.close)});
+IDS.forEach(id=>$(id).addEventListener('click',e=>{if(e.target===$(id))hide(id)}));
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){const t=[...IDS].reverse().find(id=>!$(id).hidden);if(t)hide(t)}
+  else if(!$('lb').hidden&&!e.target.matches('input,textarea')){if(e.key==='ArrowLeft')lbStep(-1);if(e.key==='ArrowRight')lbStep(1)}
+});
+
+/* boot */
+renderAlbum();
+$('scroller').addEventListener('scroll',()=>{$('swipe').hidden=true},{passive:true});
+let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(innerWidth!==lastW){build();fitCanvas()}},200)});
+if(sg('pg_admin')==='1')setAdmin(true);
+const m0=sg('pg_msg');if(m0){ss('pg_msg',null);setTimeout(()=>{toast(m0+' ✓');if(m0==='Poem planted')$('scroller').scrollTo({left:1e5,behavior:'smooth'})},500)}
+</script>
+
+</body></html>

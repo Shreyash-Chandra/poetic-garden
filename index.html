@@ -1,10 +1,10 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style id="s0">:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>The Poetry Garden</title>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><title>The Poetry Garden</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script><style id="s0">:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+.pg-loading .scene,.pg-loading #polas{opacity:0}.scene,#polas{transition:opacity .5s}
 /* Layout: one continuous scene. Night sky with the title floating in it, a drawn garden rooted in rust-brown soil,
    a royal-blue pond in the middle, and each poem opening as a sheet over the garden. Night is the default; dawn is the light theme. */
 :root{
@@ -306,7 +306,7 @@ body.admin .pola.ghost{cursor:pointer}
   <button class="x" data-close="login" type="button" aria-label="Close">×</button>
   <p class="kicker" style="--fa:var(--t-red)">The gardener's gate</p><h2 id="lt">Enter the secret</h2>
   <label class="fld">Password<input id="pw" type="password" autocomplete="current-password"></label>
-  <p class="err" id="pwerr" hidden>That isn't the garden's secret. Try again.</p>
+  <p class="err" id="pwerr" hidden>That isn't right. Try again.</p>
   <div class="row"><button class="btn" id="enter" type="button">Enter the garden</button></div>
 </div></div>
 
@@ -342,41 +342,14 @@ body.admin .pola.ghost{cursor:pointer}
   <div class="pager"><button id="lbprev" type="button">← Previous</button><span id="lbpos"></span><button id="lbnext" type="button">Next →</button></div>
 </div></div>
 
-<script type="application/json" id="gd">{}</script>
 <script id="app">
-const P0=(()=>{const b=document.body.cloneNode(true);b.querySelectorAll('script').forEach(n=>n.remove());return b.innerHTML})();
 const FRIEND = "Tarini";
 
 const SEED = [
   { id:'tarini-1', kind:'lotus', tone:'blue', label:'Blue Lotus', title:'The Girl Who Wanted the Sun', lines:["When I die, don't bury me beneath this earth,", "I've spent enough of my life questioning my worth. Don't cry for me or count the good I've done, I was just a girl who wanted to see the sun.", "", "Take me to the mountains,", "let me see the sea,", "For there were so many places I wanted to be.", "And when the first rain falls upon the ground, Remember me in the smell of earth all around.", "", "When the moon appears, remember how I loved her light,", "How I'd look for her through my window every night.", "", "Tell my father that beneath my anger and pride,", "There was a little girl who wanted him by her side.", "When I said I hated being his daughter,", "All I wanted was to make him smile a little longer.", "", "Tell my mother she deserved a life of her own,", "Not just a thousand duties and dreams left unknown.", "She deserved to travel, to laugh and be free, To be a woman first, beyond what a mother must be.", "", "Tell my brother he was my brightest star,", "My favourite little reason, no matter how far.", "Tell him to dream and reach beyond the sky,", "And never let the world teach him not to fly.", "", "Tell my friends I laughed at every silly joke,", "That their little stories meant more than I spoke.", "And when winter comes,", "remember how I hated the cold,", "Keep me in your stories, in the memories you hold.", "", "And if you ever miss me, look up at the sky,", "Smell the earth after rain, watch the birds fly.", "Remember the girl who dreamed of being free,", "Who wanted the whole world, not just a place to be.", "", "And if you wonder why I dreamed of a different destiny,", "Remember, because it's the death which frees me..", "", "-Aaradhya."]},
-  { id:'red-1', kind:'rose', tone:'red', label:'Cherry red rose', title:'Cherry Red', lines:[
-    'Say it plainly, the red one says,','no hedging, no soft landing.','I am a small bright decision','the garden made in the dark.','',
-    'Come close. Mind the thorns.','Everything worth holding has edges.']},
-  { id:'pink-1', kind:'rose', tone:'pink', label:'Pink rose', title:'Soft Spoken', lines:[
-    'Not every bloom needs to shout.','Some open like a held breath','finally let out, a pink','so quiet you lean in to hear it.','',
-    'Lean in.','Gentleness has its own weather.']},
-  { id:'mogra-1', kind:'mogra', tone:'white', label:'Mogra', title:'Night-Blooming', lines:[
-    'Mogra opens after the lamps are lit,','small white lanterns for the hour','when no one is watching.','The air learns her name first.','',
-    'Some things arrive as scent','before you see the shape of them.']},
-  { id:'red-2', kind:'rose', tone:'red', label:'Cherry red rose', title:'Ember Hour', lines:[
-    'At dusk the roses keep the light','the sky has just let go of,','the way a hand stays warm','after someone leaves it.','',
-    'Nothing is lost yet.','It is only slowly changing color.']},
-  { id:'lotus-pink', kind:'lotus', tone:'lpink', label:'Pink lotus', title:'From the Mud', lines:[
-    'The lotus does not argue with the dark water.','It drinks what is given,','climbs through the heavy silence,','and opens, unhurried,','',
-    'as if the mud had always been','a kind of teacher.']},
-  { id:'lotus-blue', kind:'lotus', tone:'blue', label:'Blue lotus', title:'Still Water', lines:[
-    'Be the pond that holds the sky','without trying to keep it.','Let the clouds cross.','Let the blue lotus rest on its own reflection.','',
-    'You are allowed to be quiet','and still be enormous.']},
-  { id:'pink-2', kind:'rose', tone:'pink', label:'Pink rose', title:'Letter to Morning', lines:[
-    'Dear morning, I came with nothing','but a wet face and an open window.','You gave me a color','that has no name in any language,','',
-    'only a feeling like forgiveness','arriving before I asked.']},
-  { id:'mogra-2', kind:'mogra', tone:'white', label:'Mogra', title:'What Stays', lines:[
-    'Crush a petal and it still gives.','That is the whole lesson,','folded into a bead of white.','',
-    'Wear it in your hair, on your wrist,','in the pocket of a long day.','Fragrance is a memory that needs no photograph.']}
 ];
-let GD={};try{GD=JSON.parse(document.getElementById('gd').textContent)}catch(e){}
-let POEMS = GD.poems || SEED.map(p=>({...p}));
-let PHOTOS = GD.photos || [];
+let POEMS = SEED.map(p=>({...p}));
+let PHOTOS = [];
 
 const TONE_TOKEN = { red:'--t-red', pink:'--t-pink', lpink:'--t-pink', blue:'--t-blue', white:'--t-white', rust:'--t-rust', gold:'--t-gold' };
 const DOT = { red:'var(--cherry-hi)', pink:'var(--pink)', lpink:'var(--pink)', blue:'var(--royal-hi)', white:'var(--ivory)', rust:'#E07A3F', gold:'var(--gold)' };
@@ -663,50 +636,65 @@ matchMedia('(max-width: 640px)').addEventListener('change', () => { build(); fit
 new ResizeObserver(() => { layoutSoil(); fitCanvas(); }).observe($('sky'));
 if(!reduce) requestAnimationFrame(tick);
 /* ---------- gardener mode, poems, album ---------- */
-const PASS_HASH='461fafcd9c8975a4cf904cb063c2196ae23b6f5fc3390fe52c1b172728662b21';   // SHA-256 of the gardener password
+/* ---------- Supabase config: fill these in (see SETUP.md) ---------- */
+const SUPABASE_URL='https://zxdtbxzbdcepmjhlboyv.supabase.co';
+const SUPABASE_ANON_KEY='sb_publishable_-Px3At2mwlrGkqE5M4fIzA_dHPxYyTD';
+const OWNER_EMAIL='shreyashchandra202@gmail.com';      // the one account allowed to edit the garden
+const BUCKET='garden-photos';
+const sb=window.supabase?supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY):null;
+
 let admin=false,editing=-1,pickKey=0,tt,lbl=[],lbp=0,curAlb='',defAlb='',pend=[];
 const newId=()=>'p'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
-const sha=async t=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t)))].map(b=>b.toString(16).padStart(2,'0')).join('');
 const IDS=['alb','login','editor','upl','lb'];
 const show=id=>{$(id).hidden=false;document.documentElement.style.overflow='hidden'};
 const hide=id=>{$(id).hidden=true;if(overlay.hidden&&IDS.every(i=>$(i).hidden))document.documentElement.style.overflow=''};
 function toast(m){const t=$('toast');t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,3600)}
 function twoStep(b,base,fn){let on=false;b.onclick=()=>{if(!on){on=true;b.textContent='Tap again to confirm';setTimeout(()=>{on=false;b.textContent=base},3000);return}on=false;b.textContent=base;fn()}}
-const ss=(k,v)=>{try{v==null?sessionStorage.removeItem(k):sessionStorage.setItem(k,v)}catch(e){}};
-const sg=k=>{try{return sessionStorage.getItem(k)}catch(e){return null}};
-const useArt=async()=>window.claude?await claude.use('artifact').catch(()=>null):null;
 
-/* saving: the garden republishes itself with its poems and photos embedded, so everyone who opens the link sees them */
-function buildDoc(d){
-  const j=JSON.stringify(d).replace(/</g,'\\u003c');
-  return '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style id="s0">'+$('s0').textContent+'</style></head><body>'+P0+'<script type="application/json" id="gd">'+j+'<\/script><script id="app">'+$('app').textContent+'<\/script></body></html>';
+/* load: poems + photo list live in one row of the garden table; photo files live in Storage */
+async function loadGarden(){
+  document.documentElement.classList.add('pg-loading');
+  try{
+    if(!sb)throw 0;
+    const {data,error}=await sb.from('garden').select('data').eq('id',1).maybeSingle();
+    if(error)throw error;
+    if(data&&data.data){if(Array.isArray(data.data.poems))POEMS=data.data.poems;if(Array.isArray(data.data.photos))PHOTOS=data.data.photos}
+  }catch(e){console.warn('Could not load garden from Supabase, showing defaults.',e)}
+  readSet.clear();refresh();renderAlbum();
+  document.documentElement.classList.remove('pg-loading');
 }
 async function save(msg){
-  const a=await useArt();
-  if(!a){toast("Saving works only for the garden's owner, signed in to Claude.");return false}
-  const html=buildDoc({poems:POEMS,photos:PHOTOS});
-  if(html.length>15e6){toast('The album is full. Remove a few photos first.');return false}
-  try{ss('pg_msg',msg);ss('pg_admin','1');toast('Saving…');await a.publish(html);return true}
-  catch(e){ss('pg_msg',null);toast(e&&e.code==='conflict'?'Someone saved first. Reload and try again.':"Couldn't save. Are you signed in as the owner?");return false}
+  if(!sb){toast('Supabase is not configured.');return false}
+  try{
+    toast('Saving…');
+    const {error}=await sb.from('garden').upsert({id:1,data:{poems:POEMS,photos:PHOTOS},updated_at:new Date().toISOString()});
+    if(error)throw error;
+    return true;
+  }catch(e){console.error(e);toast("Couldn't save. Are you signed in as the owner?");return false}
 }
 async function commit(msg,fn){
   const sp=JSON.stringify(POEMS),sh=JSON.stringify(PHOTOS);fn();
-  if(await save(msg))return true;
+  if(await save(msg)){
+    refresh();renderAlbum();if(!$('alb').hidden)openAlb(curAlb);
+    toast(msg+' ✓');
+    if(msg==='Poem planted')$('scroller').scrollTo({left:1e5,behavior:'smooth'});
+    return true;
+  }
   POEMS=JSON.parse(sp);PHOTOS=JSON.parse(sh);readSet.clear();refresh();renderAlbum();return false;
 }
 function refresh(){build();renderChips()}
-function setAdmin(v){admin=v;document.body.classList.toggle('admin',v);$('gardener').hidden=v;ss('pg_admin',v?'1':null);renderAlbum()}
+function setAdmin(v){admin=v;document.body.classList.toggle('admin',v);$('gardener').hidden=v;renderAlbum()}
 
 $('gardener').onclick=()=>{$('pw').value='';$('pwerr').hidden=true;show('login');setTimeout(()=>$('pw').focus(),40)};
 async function tryLogin(){
-  let ok=false;try{ok=(await sha($('pw').value.trim()))===PASS_HASH}catch(e){}
+  let ok=false;
+  try{const {error}=await sb.auth.signInWithPassword({email:OWNER_EMAIL,password:$('pw').value});ok=!error}catch(e){}
   if(!ok){$('pwerr').hidden=false;const s=$('lsheet');s.classList.remove('shake');void s.offsetWidth;s.classList.add('shake');return}
-  if(!(await useArt())){hide('login');toast("Gardener tools work only for the garden's owner, signed in to Claude.");return}
   hide('login');setAdmin(true);toast('Welcome, gardener.');
 }
 $('enter').onclick=tryLogin;
 $('pw').addEventListener('keydown',e=>{if(e.key==='Enter')tryLogin()});
-$('logout').onclick=()=>{setAdmin(false);toast('Gardener mode off.')};
+$('logout').onclick=async()=>{try{await sb.auth.signOut()}catch(e){}setAdmin(false);toast('Gardener mode off.')};
 
 /* poems */
 function drawPicker(){
@@ -723,7 +711,7 @@ function openEditor(i){
 }
 $('plant').onclick=()=>openEditor(-1);
 $('editPoem').onclick=()=>{overlay.hidden=true;openEditor(current)};
-twoStep($('delPoem'),'Delete',async()=>{overlay.hidden=true;document.documentElement.style.overflow='';await commit('Poem removed',()=>{POEMS.splice(current,1);readSet.clear()});refresh()});
+twoStep($('delPoem'),'Delete',async()=>{overlay.hidden=true;document.documentElement.style.overflow='';await commit('Poem removed',()=>{POEMS.splice(current,1);readSet.clear()})});
 $('psave').onclick=async()=>{
   const title=$('ptitle').value.trim(),lines=$('ptext').value.replace(/\r/g,'').split('\n').map(x=>x.trimEnd());
   while(lines.length&&!lines[0])lines.shift();while(lines.length&&!lines[lines.length-1])lines.pop();
@@ -754,27 +742,37 @@ function openAlb(name){
   show('alb');
 }
 $('agrid').addEventListener('click',e=>{const b=e.target.closest('.thumb');if(b)openLb(+b.dataset.i)});
-const shrink=f=>new Promise((res,rej)=>{const r=new FileReader();r.onerror=rej;r.onload=()=>{const im=new Image();im.onerror=rej;im.onload=()=>{const k=Math.min(1,900/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.74))};im.src=r.result};r.readAsDataURL(f)});
+const shrink=f=>new Promise((res,rej)=>{const r=new FileReader();r.onerror=rej;r.onload=()=>{const im=new Image();im.onerror=rej;im.onload=()=>{const k=Math.min(1,900/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);c.toBlob(b=>res({src:c.toDataURL('image/jpeg',.5),blob:b}),'image/jpeg',.78)};im.src=r.result};r.readAsDataURL(f)});
 $('addph').onclick=()=>{defAlb='';$('file').click()};
 $('addhere').onclick=()=>{defAlb=curAlb;$('file').click()};
 $('file').onchange=async e=>{
   const fs=[...e.target.files];e.target.value='';if(!fs.length)return;toast('Preparing '+fs.length+' photo'+(fs.length>1?'s':'')+'…');
-  pend=[];for(const f of fs){try{pend.push({src:await shrink(f)})}catch(err){toast("Couldn't read "+f.name)}}
+  pend=[];for(const f of fs){try{pend.push(await shrink(f))}catch(err){toast("Couldn't read "+f.name)}}
   if(!pend.length)return;
   $('ualb').value=defAlb||(PHOTOS.length?PHOTOS[PHOTOS.length-1].album:'Moments');
   $('ulist').innerHTML=pend.map((p,i)=>`<div class="urow"><img src="${p.src}" alt=""><input data-i="${i}" maxlength="140" placeholder="A little note (optional)"></div>`).join('');
   show('upl');
 };
 $('usave').onclick=async()=>{
-  const alb=$('ualb').value.trim()||'Moments',items=[...$('ulist').querySelectorAll('input')].map(inp=>({id:newId(),src:pend[+inp.dataset.i].src,note:inp.value.trim(),album:alb}));
-  hide('upl');await commit('Photos added',()=>{PHOTOS.push(...items)});
+  const alb=$('ualb').value.trim()||'Moments',rows=[...$('ulist').querySelectorAll('input')];
+  hide('upl');toast('Uploading…');
+  const items=[];
+  try{
+    for(const inp of rows){
+      const id=newId(),path=id+'.jpg',blob=pend[+inp.dataset.i].blob;
+      const {error}=await sb.storage.from(BUCKET).upload(path,blob,{contentType:'image/jpeg',cacheControl:'31536000'});
+      if(error)throw error;
+      items.push({id,path,src:sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl,note:inp.value.trim(),album:alb});
+    }
+  }catch(e){console.error(e);toast("Couldn't upload. Are you signed in as the owner?");if(items.length)sb.storage.from(BUCKET).remove(items.map(x=>x.path));return}
+  await commit('Photos added',()=>{PHOTOS.push(...items)});
 };
 function openLb(i){lbl=albums().get(PHOTOS[i].album)||[i];lbp=Math.max(0,lbl.indexOf(i));showLb()}
 function showLb(){const p=PHOTOS[lbl[lbp]];$('lbimg').src=p.src;$('lbimg').alt=p.note||'';$('lbcap').textContent=p.note||'';$('lbcap').hidden=!p.note;$('lbcapin').value=p.note||'';$('lbpos').textContent=`${lbp+1} / ${lbl.length}`;show('lb')}
 const lbStep=d=>{lbp=(lbp+d+lbl.length)%lbl.length;showLb()};
 $('lbprev').onclick=()=>lbStep(-1);$('lbnext').onclick=()=>lbStep(1);
 $('lbcapin').onchange=e=>{const v=e.target.value.trim(),i=lbl[lbp];commit('Note saved',()=>{PHOTOS[i].note=v})};
-twoStep($('delPh'),'Delete photo',()=>{const i=lbl[lbp];hide('lb');hide('alb');commit('Photo removed',()=>{PHOTOS.splice(i,1)})});
+twoStep($('delPh'),'Delete photo',async()=>{const i=lbl[lbp],path=PHOTOS[i].path;hide('lb');hide('alb');if(await commit('Photo removed',()=>{PHOTOS.splice(i,1)})&&path)sb.storage.from(BUCKET).remove([path])});
 
 document.addEventListener('click',e=>{const c=e.target.closest('[data-close]');if(c)hide(c.dataset.close)});
 IDS.forEach(id=>$(id).addEventListener('click',e=>{if(e.target===$(id))hide(id)}));
@@ -787,8 +785,8 @@ document.addEventListener('keydown',e=>{
 renderAlbum();
 $('scroller').addEventListener('scroll',()=>{$('swipe').hidden=true},{passive:true});
 let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(innerWidth!==lastW){build();fitCanvas()}},200)});
-if(sg('pg_admin')==='1')setAdmin(true);
-const m0=sg('pg_msg');if(m0){ss('pg_msg',null);setTimeout(()=>{toast(m0+' ✓');if(m0==='Poem planted')$('scroller').scrollTo({left:1e5,behavior:'smooth'})},500)}
+loadGarden();
+if(sb)sb.auth.getSession().then(({data})=>{if(data&&data.session&&data.session.user.email===OWNER_EMAIL)setAdmin(true)});
 </script>
 
 </body></html>
